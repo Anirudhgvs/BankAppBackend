@@ -20,12 +20,6 @@ public class UserController {
         return ResponseEntity.ok(userService.getCurrentUserProfile());
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User request) {
-        userService.createUser(request);
-        return ResponseEntity.ok("User registered successfully");
-    }
-
     @GetMapping("/me")
     public ResponseEntity<User> fetchUser(@RequestBody User request) {
         Optional<User> optionalUser = userService.getByUserName(request.getUsername());
