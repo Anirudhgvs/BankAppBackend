@@ -1,5 +1,6 @@
 package com.springdemo.project.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,9 +47,16 @@ public class User {
     @Column(nullable = false)
     private String employmentStatus;
 
+    @Version
+    private Long version;
+
+    @JsonManagedReference
+    @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Loan> loans;
 
+    @JsonManagedReference
+    @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 }

@@ -21,9 +21,6 @@ public class LoanService {
     private LoanRepository loanRepository;
 
     @Autowired
-    private UserRepo userProfileRepository;
-
-    @Autowired
     private AuthUtil authUtil;
 
     @Transactional

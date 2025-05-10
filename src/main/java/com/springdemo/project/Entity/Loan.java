@@ -1,5 +1,7 @@
 package com.springdemo.project.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +20,8 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonBackReference
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -43,6 +47,8 @@ public class Loan {
     @Column(nullable = false)
     private String purpose;
 
+    @JsonManagedReference
+    @ToString.Exclude
     @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 }

@@ -18,16 +18,6 @@ public class LoanController {
     @Autowired
     private LoanService loanService;
 
-    @PostMapping("/apply")
-    public ResponseEntity<Loan> applyForLoan(@RequestBody LoanApplicationDTO application) {
-        return ResponseEntity.ok(loanService.applyForLoan(application));
-    }
-
-    @GetMapping("/status")
-    public ResponseEntity<List<Loan>> getLoanStatus() {
-        return ResponseEntity.ok(loanService.getUserLoans());
-    }
-
     @PutMapping("/admin/approve/{loanId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Loan> approveLoan(@PathVariable Long loanId) {
