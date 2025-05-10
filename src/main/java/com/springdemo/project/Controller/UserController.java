@@ -9,11 +9,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/profile")
+    public ResponseEntity<User> getUserProfile() {
+        return ResponseEntity.ok(userService.getCurrentUserProfile());
+    }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User request) {

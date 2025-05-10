@@ -3,6 +3,8 @@ package com.springdemo.project.Service;
 import com.springdemo.project.Entity.Role;
 import com.springdemo.project.Entity.User;
 import com.springdemo.project.Repositories.UserRepo;
+import com.springdemo.project.Utils.AuthUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +21,14 @@ public class UserService {
     @Autowired
     UserRepo userRepo;
 
+    @Autowired
+    private AuthUtil authUtil;
+
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public User getCurrentUserProfile() {
+        return authUtil.getCurrentUser();
+    }
 
     public List<User> getAllusers() {
         return userRepo.findAll();
