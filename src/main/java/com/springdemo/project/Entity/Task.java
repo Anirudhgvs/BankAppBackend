@@ -1,15 +1,12 @@
 package com.springdemo.project.Entity;
 
+import jakarta.persistence.*;
 import lombok.*;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.List;
 
-@Document
+@Entity
+@Table(name = "tasks")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,21 +15,32 @@ import java.util.List;
 public class Task {
 
     @Id
-    ObjectId id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    String title;
+    @Column(nullable = false)
+    private String title;
 
-    String description;
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
-    Date dueDate;
+    @Column(name = "due_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dueDate;
 
-    Status status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
 
-    Priority priority;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Priority priority;
 
-    @DBRef
-    User assignedTo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assigned_to_id", nullable = false)
+    private User assignedTo;
 
-    @DBRef
-    User createdBy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by_id", nullable = false)
+    private User createdBy;
 }

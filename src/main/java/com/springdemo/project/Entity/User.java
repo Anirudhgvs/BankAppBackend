@@ -2,17 +2,11 @@ package com.springdemo.project.Entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import lombok.*;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Document
+@Entity
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,13 +15,19 @@ import java.util.List;
 public class User {
 
     @Id
-    ObjectId id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    String username;
+    @Column(unique = true, nullable = false)
+    private String username;
 
-    String email;
+    @Column(unique = true, nullable = false)
+    private String email;
 
-    String password;
+    @Column(nullable = false)
+    private String password;
 
-    Role role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 }
