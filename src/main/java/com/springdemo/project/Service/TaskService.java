@@ -34,7 +34,7 @@ public class TaskService {
 
     public List<Task> getTasks() {
         User user = authUtil.getCurrentUser();
-        return user.getRole() == Role.ADMIN ? taskRepo.findAll() : taskRepo.findByAssignedTo(user);
+        return user.getRole() == Role.ADMIN ? taskRepo.findAll() : null;
     }
 
     public Task getTaskById(Long id) {
@@ -45,13 +45,14 @@ public class TaskService {
         User currentUser = authUtil.getCurrentUser();
         Task task = getTaskById(id);
 
-        if (currentUser.getRole() != Role.ADMIN && !task.getAssignedTo().getId().equals(currentUser.getId())) {
-            throw new AccessDeniedException("Not authorized to update this task.");
-        }
+        // if (currentUser.getRole() != Role.ADMIN &&
+        // !task.getAssignedTo().getId().equals(currentUser.getId())) {
+        // throw new AccessDeniedException("Not authorized to update this task.");
+        // }
 
         task.setTitle(updatedTask.getTitle());
         task.setDescription(updatedTask.getDescription());
-        task.setAssignedTo(updatedTask.getAssignedTo());
+        // task.setAssignedTo(updatedTask.getAssignedTo());
         return taskRepo.save(task);
     }
 

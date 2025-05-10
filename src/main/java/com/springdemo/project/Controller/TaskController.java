@@ -1,6 +1,8 @@
 package com.springdemo.project.Controller;
 
 import com.springdemo.project.DTO.TaskDTO;
+import com.springdemo.project.Entity.Priority;
+import com.springdemo.project.Entity.Status;
 import com.springdemo.project.Entity.Task;
 import com.springdemo.project.Entity.User;
 import com.springdemo.project.Repositories.UserRepo;
@@ -23,18 +25,20 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<Task> create(@RequestBody TaskDTO request) {
-        User assignedUser = userRepository.findById(request.getAssignedTo())
-                .orElseThrow(() -> new RuntimeException("Assigned user not found"));
+        // User assignedUser = userRepository.findById(request.getAssignedTo())
+        // .orElseThrow(() -> new RuntimeException("Assigned user not found"));
 
-        User creator = userRepository.findById(request.getCreatedBy())
-                .orElseThrow(() -> new RuntimeException("Creator user not found"));
+        // User creator = userRepository.findById(request.getCreatedBy())
+        // .orElseThrow(() -> new RuntimeException("Creator user not found"));
 
         Task task = new Task();
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setDueDate(request.getDueDate());
-        task.setAssignedTo(assignedUser);
-        task.setCreatedBy(creator);
+        // task.setAssignedTo(assignedUser);
+        // task.setCreatedBy(creator);
+        task.setPriority(Priority.valueOf(request.getPriority().toUpperCase()));
+        task.setStatus(Status.valueOf(request.getStatus().toUpperCase()));
         return ResponseEntity.ok(taskService.createTask(task));
     }
 
