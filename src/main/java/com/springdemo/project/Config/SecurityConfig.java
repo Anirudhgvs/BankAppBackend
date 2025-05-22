@@ -30,9 +30,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()) // Disable CSRF for stateless APIs (JWT is stateless)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/auth/**").permitAll() // Allow /authenticate without security
+                        .requestMatchers("/api/auth/**").permitAll() // Allow /api/auth without security
                         .requestMatchers("/api/books/**").hasAnyRole("USER","ADMIN") // Only ADMIN can access book operations
-                        .anyRequest().authenticated() // All other requests require authentication
+                        .anyRequest().authenticated() // All other requests require JWT authentication
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No sessions (JWT is stateless)
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Add our JWT filter
